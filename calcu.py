@@ -43,14 +43,14 @@ def calculate(text, degrees=True):
             .replace("^", "**").replace("π","phi").replace("√", "sqrt")
             .replace("%", "/100").replace(" ", "")
             )
-    function = build_functions(degrees)
+    functions = build_functions(degrees)
 
     def ev(node):
         if isinstance(node, ast.Expression):
             return ev(node.body)
         if isinstance(node, ast.Constant) and type(node.value) in (int, float):
             return node.value
-        if isinstance(node, ast.name) and node.id in CONSTANTS:
+        if isinstance(node, ast.Name) and node.id in CONSTANTS:
             return CONSTANTS[node.id]
         if isinstance(node, ast.UnaryOp) and type(node.op) in UNARY_OPS:
             return UNARY_OPS[type(node.op)](ev(node.operand))
@@ -58,5 +58,37 @@ def calculate(text, degrees=True):
             left, right = ev(node.left), ev(node.right)
             if isinstance(node.op, ast.Pow) and abs(right) > 10000:
                 raise ValueError("Exponent too large")
-            return BINARY_OPS[type(node.op)](left.right)
-        
+            return BINARY_OPS[type(node.op)](left, right)
+        if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+                and node.func.id in functions and len(node.args) == 1
+                and not node.keywords):
+            return functions[node.func.id](ev(node.args[0]))
+        raise ValueError("Invalid Expression")
+
+    result = ev(ast.parse(text, mode="eval"))
+    if isinstance(result, complex):
+        raise ValueError("Result is a complex number")
+    if isinstance(result, float) and not math.isfinite(result):
+        raise ValueError("Result is infinite")
+    return result
+
+def format_number(x, snap_to_zero=True):
+    if isinstance(x, int):
+        return str(x)
+    if snap_to_zero and abs(x) < 1e-12: #Harusnya si ngehapus floating point noise
+        return "0"
+    if x == int(x) and abs(x) < 1e15:
+        return str(int(x))
+    return f"{x:.12g}"
+
+
+
+# ==============
+# 2. Conversion
+# ==============
+
+UNITS = {
+    "Length": { #satuannya pake meter aja udah
+        "Meter (m)": 1, "Kilometer (km)":1000, "Centimeter (cm)":0.01, "Milimeter (mm)": 0.001, "Mile (mi)": 1609.344, "Yard (yd)": 0.9144, "Foot (ft)": 0.3048,
+    }
+}
