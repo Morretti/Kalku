@@ -89,6 +89,55 @@ def format_number(x, snap_to_zero=True):
 
 UNITS = {
     "Length": { #satuannya pake meter aja udah
-        "Meter (m)": 1, "Kilometer (km)":1000, "Centimeter (cm)":0.01, "Milimeter (mm)": 0.001, "Mile (mi)": 1609.344, "Yard (yd)": 0.9144, "Foot (ft)": 0.3048,
-    }
+        "Meter (m)": 1, "Kilometer (km)":1000, "Centimeter (cm)":0.01, "Milimeter (mm)": 0.001, "Mile (mi)": 1609.344, "Yard (yd)": 0.9144, "Foot (ft)": 0.3048, "Inch (in)": 0.0254,
+    },
+
+    "Mass" : { #ngitung beradd
+        "Kilogram (kg)": 1,"Gram (g)": 0.001, "Miligram (mg)": 1e-6, "Metric ton (t)": 1000, "Pound (lb)": 0.45359273, "Ounce (oz)": 0.028349523125, 
+    },
+
+    "Volume": { #nyari volume (isi)
+        "Liter (L)": 1, "Mililiter (ml)": 0.001, "Cubic meter (m³)": 1000, "Gallon (US)": 3.785411784, "Cup (US)": 0.2365882365,
+    },
+
+    "Area": { #nyari luas
+        "Square meter (m²)": 1, "Square kilometer (km²)": 1e6, "Hectare (ha)": 1e4, "Square centimeter (cm²)": 1e-4, "Acre": 4046.8564224, "Square foot (ft²)": 0.09290304,
+    },
+
+    "Temperature" : { #Suhu
+        "Celcius (°C)": None, "Fahrenheit (°F)": None, "Kelvin (°K)": None, "Reamur (°R)": None
+    },
+
+    "Speed": {#Kecepetean 
+        "m/s": 1, "km/h": 1 / 3.6, "mph": 0.44704, "Knot": 0.514444444,
+    },
+
+    "Time": { #waktu
+        "Second" : 1, "Minute": 60, "Hour": 3600, "Day": 86400, "Week": 604800,
+        "Year (365 Days)": 31536000, 
+    },
+
+    "Data": { #byte 
+        "Bit": 0.125, "Byte": 1, "Kilobyte (KB)": 1024, "Megabyte (MB)": 1024 ** 2, "Gigabyte (GB)": 1024 ** 3, "Terabyte (TB)": 1024 ** 4,    
+    },
+
+    "Energy": { #joule
+        "Joule (J)": 1, "Kilojoule (KJ)": 1000, "Calorie (cal)": 4.184, "Kilocalorie (kcal)": 4184, "Kilowatt-hour (kWh)": 3.6e6,
+    },
+
+    "Pressure": { #pascal 
+        "Pascal (Pa)": 1, "Kilopascal (kPa)": 1000, "Bar": 1e5, "Atmosphere (atm)": 101325, "PSI": 6894.757293168,
+    },
+
+    "Angle": { #sudut
+        "Degree (°)": 1, "Radian (rad)": 180 / math.pi, "Gradian (grad)": 0.9,
+    },
+
+    #Money (In Indonesia Rupiah)
+    "Currency": {
+        "Indonesia Rupiah (IDR)": 1, "US Dollar (USD)": 17914, "Euro (EUR)": 20480,
+        "British Pound (GBP)": 23725, "Japanese Yen (JPY)": 113, "Singapore Dollar (SGD)": 14025, "Malaysian Ringgit (MYR)": 4400, "Chinese Yuan (CNY)": 2670,
+        "Saudi Riyal (SAR)": 4800,
+    },
 }
+
