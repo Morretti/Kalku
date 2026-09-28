@@ -189,7 +189,7 @@ class App(tk.Tk):
     def build_calculactor(self, frame):
         self.expression = tk.StringVar()
         self.expression.trace_add("write", self.preview)
-        self.entry = tk.Entry(frame, textvariable=self.expression
+        self.entry = tk.Entry(frame, textvariable=self.expression,
                               font=("Segoe UI", 26), justify="right", bg=COLORS["display"], fg=COLORS["text"], insertbackground=COLORS["text"], relief="flat")
         
 
