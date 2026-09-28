@@ -105,7 +105,7 @@ UNITS = {
     },
 
     "Temperature" : { #Suhu
-        "Celcius (°C)": None, "Fahrenheit (°F)": None, "Kelvin (°K)": None, "Reamur (°R)": None
+        "Celcius (°C)": None, "Fahrenheit (°F)": None, "Kelvin (K)": None, "Reaumur (°Re)": None
     },
 
     "Speed": {#Kecepetean 
@@ -140,4 +140,56 @@ UNITS = {
         "Saudi Riyal (SAR)": 4800,
     },
 }
+
+def convert(category, value, from_unit, to_unit):
+    if category == "Temperature":
+        celcius = {"Celcius (°C)": value,
+                   "Fahrenheit (°F)": (value - 32) * 5 /9,
+                   "Kelvin (K)": value - 273.15,
+                   "Reaumur (°Re)": value * 5 / 4}[from_unit]
+        return {"Celcius (°C)": celcius,
+                "Fahrenheit (°F)": celcius * 9 / 5 + 32,
+                "Kelvin (K)": celcius + 273.15,
+                "Reaumur (°Re)": celcius * 4 / 5}[to_unit]
+    table = UNITS[category]
+    return value * table[from_unit] / table[to_unit]
+
+def format_currency(x):
+    return f"{x:,.0f}"
+
+# ===============
+# User Interface
+# ===============
+
+COLORS = {"bg": "#1c1c1e", "display": "#000000", "number": "#333336",       "operator": "#ff9f0a", "function": "#4a4a4f", "text": "#ffffff", "gary": "9a9a9f", "red": "#ff453a"}
+FUNCTION_NAMES = {"sin", "cos", "tan", "asin", "acos", "atan", "in", "log", "√", "abs"}
+
+class App(tk.Tk):
+    def __init__(self):
+        self.tittle("Advanced Calculactor")
+        self.geometry("400x740")
+        self.minsize(360, 660)
+        self.degress = True
+        self.memory = 0
+        self.last_answer = "0"
+        self.scientific_visible = False
+
+        notebook = ttk.Notebook(self)
+        notebook.pack(fill="both", expand=True)
+        tab_calc = tk.Frame(notebook, bg=COLORS["bg"])
+        tab_convert, tab_loan = ttk.Frame(notebook), ttk.Frame(notebook)
+        notebook.add(tab_calc, text="Calculactor")
+        notebook.add(tab_convert, text="Converter")
+        notebook.add(tab_loan, text="Loan")
+        self.build_calculactor(tab_calc)
+        self.build_converter(tab_convert)
+        self.build_loan(tab_loan)
+
+
+    def build_calculactor(self, frame):
+        self.expression = tk.StringVar()
+        self.expression.trace_add("write", self.preview)
+        self.entry = tk.Entry(frame, textvariable=self.expression
+                              font=("Segoe UI", 26), justify="right", bg=COLORS["display"], fg=COLORS["text"], insertbackground=COLORS["text"], relief="flat")
+        
 
