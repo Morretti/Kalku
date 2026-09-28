@@ -237,6 +237,22 @@ class App(tk.Tk):
         #Main Panel
         main_frame = tk.Frame(area, bg=COLORS["bg"])
         main_frame.grid(row=1, coloumn=0, sticky="nsew")
-        
+        main = [["AC", "⌫", "%", "÷"], ["7", "8", "9", "x"], ["4", "5", "6", "-"], ["1", "2", "3", "+"], ["Ans", "0", ".", "="]]
+        self.fill_buttons(main_frame, main, actions, size=16)
+
+    def fill_buttons(self, parent, rows, actions, size):
+        for r, row in enumerate(rows):
+            parent.rowconfigure(r, weight=1)
+            for c, label in enumerate(row):
+                parent.coloumnconfigure(c, weight=1, uniform="k")
+                if label in ("÷", "×", "−", "+", "="):
+                    color = COLORS["operator"]
+                elif label in ("AC", "⌫", "%") or parent is self.scientific_panel:
+                    color = COLORS["function"]
+                else:
+                    color = COLORS["number"]
+                action = actions.get(label, lambda x=label: self.press(x))
+                tk.Button(parent, text=label, font=("Segoe UI", size), bg=color, fg=COLORS["text"], activebackground=COLORS["operator"], relief="flat", bd=0, takefocus=False, command=action).grid(row=r, column=c, sticky="nsew", padx=2, pady=2)
+                
 
 
