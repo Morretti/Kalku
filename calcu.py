@@ -191,5 +191,35 @@ class App(tk.Tk):
         self.expression.trace_add("write", self.preview)
         self.entry = tk.Entry(frame, textvariable=self.expression,
                               font=("Segoe UI", 26), justify="right", bg=COLORS["display"], fg=COLORS["text"], insertbackground=COLORS["text"], relief="flat")
-        
+        self.entry.pack(fill="x", padx=10, pady=(12, 0), ipady=8)
+        self.entry.bind("<Return>", lambda e: self.equals())
+        self.entry.bind("<KP_Enter>", lambda e: self.equals())
+        self.entry.bind("<Escape>", lambda e: self.clear_all())
+        self.entry.focus.set()
+        self.result_label = tk.Label(frame, text="", font=("Segoe UI", 16), anchor="e", bg=COLORS["bg"], fg=COLORS["gray"])
+        self.result_label.pack(fill="x", padx=12)
+
+        bar = tk.Frame(frame, bg=COLORS["bg"])
+        bar.pack(fill="x", padx=10, pady=4)
+        self.mode_button = tk.Button(bar, text="DEG", width=6,
+                                     bg=COLORS["function"], fg=COLORS["text"],
+                                     relief="flat", takefocus=False,
+                                     command=self.toggle_angle_mode)
+        self.mode_button.pack(side="left")
+        tk.Button(bar, text="Scientific", width=11, bg=COLORS["function"], fg=COLORS["text"], relief="flat", takefocus=False, command=self.toggle_scientific).pack(side="left", padx=6)
+
+        self.history_list = tk.Listbox(frame, height=4, bg=COLORS["display"], fg=COLORS["gray"], bd=0, highlightthickness=0, font=("Consolas", 10))
+
+        self.history_list.pack(fill="x", padx="10", pady="4")
+        self.history_list.bind("<Double-Button-1>", self.use_history)
+
+        area = tk.Frame(frame, bg=COLORS["bg"])
+        area.pack(fill="both", expand=True, padx=8, pady=6)
+        area.columnconfigure(0, weight=1)
+        area.rowconfigure(1, weight=2)
+
+        actions = {
+            
+        }
+
 
