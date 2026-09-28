@@ -219,7 +219,14 @@ class App(tk.Tk):
         area.rowconfigure(1, weight=2)
 
         actions = {
-            
+            "AC": self.clear_all, "⌫":self.backspace, "=":self.equals,
+            "Ans": lambda: self.insert_text(self.last_answer),
+            "MC": lambda: setattr(self, "memory", 0),
+            "MR": lambda: self.insert_text(format_number(self.memory)),
+            "M+": lambda: setattr(self, "memory", 
+                                  self.memory + self.current_value()),
+            "M-": lambda: setattr(self, "memory", self.memory - self.current_value()),
         }
+        
 
 
