@@ -227,6 +227,16 @@ class App(tk.Tk):
                                   self.memory + self.current_value()),
             "M-": lambda: setattr(self, "memory", self.memory - self.current_value()),
         }
+
+        self.scientific_panel = tk.Frame(area, bg=COLORS["bg"])
+        self.scientific_panel.grid(row=0, column=0, sticky="nsew")
+        scientific = [["MC", "MR", "M+", "M-"], ["sin", "cos", "tan", "π"], ["asin", "acos", "atan", "e"], ["ln", "log", "√", "^"], ["(", ")", "x!", "abs"]]
+        self.fill_buttons(self.scientific_panel, scientific, actions, size=12)
+        self.scientific_panel.grid_remove()
+
+        #Main Panel
+        main_frame = tk.Frame(area, bg=COLORS["bg"])
+        main_frame.grid(row=1, coloumn=0, sticky="nsew")
         
 
 
