@@ -253,6 +253,69 @@ class App(tk.Tk):
                     color = COLORS["number"]
                 action = actions.get(label, lambda x=label: self.press(x))
                 tk.Button(parent, text=label, font=("Segoe UI", size), bg=color, fg=COLORS["text"], activebackground=COLORS["operator"], relief="flat", bd=0, takefocus=False, command=action).grid(row=r, column=c, sticky="nsew", padx=2, pady=2)
+
+
+    # Calculactor Function
+    def insert_text(self, text):
+        self.entry.insert(tk.INSERT, text)
+        self.entry.focus_set()
+
+    def press(self, label):
+        if label == "x!":
+            label = "fact("
+        elif label in FUNCTION_NAMES:
+            label += "("
+        self.insert_text(label)
+
+    def clear_all(self):
+        self.expression.set("")
+        self.result_label.config(text="")
+
+    def backspace(self):
+        pos = self.entry.index(tk.INSERT)
+        if pos > 0:
+            self.entry.delete(pos -1)
+
+    def current_value(self):
+        try:
+            return calculate(self.expression.get(), self.degress)
+        except Exception:
+            return 0
+
+    def preview(self, *_):
+        text = self.expression.get().strip()
+        try:
+            value = format_number(calculate(text, self.degress))
+            self.result_label.config(text="= " + value, fg=COLORS["gray"])
+        except Exception:
+            self.result_label.config(text="")
+
+    def equals(self):
+        text = self.expression.get().strip()
+        if not text:
+            return
+        try:
+            result = format_number(calculate(text, self.degress))
+        except ZeroDivisionError:
+            self.result_label.config(text="Cant divide by zero", fg=COLORS["red"])
+            return
+        self.last_answer
+        self.history_list.insert(0, f"{text} = {result}")
+        self.expression.set(result)
+        self.entry.icursor(tk.END)
+
+    def use_history(self, _):
+        selection = self.history_list.curselection()
+        if selection:
+            self.insert_text(self.history_list.get(selection[0]).split(" = ")[-1])
+
+    def toggle_angle_mode(self):
+        self.degress = not self.degress
+        self.mode_button.config(text="DEG" if self.degress else "RAD")
+        self.preview()
+
+    def toggle_Scienti
+
                 
 
 
