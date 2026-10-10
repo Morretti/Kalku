@@ -339,6 +339,14 @@ class App(tk.Tk):
 
         ttk.Label(frame, text="From").pack(anchor="w", **pad)
         self.from_unit = tk.StringVar()
+        self.from_box = ttk.Combobox(frame, textvariable=self.from_unit, state="readonly")
+        self.from_box.pack(fill="x", **pad)
+        self.from_box.bind("<<ComoboxSelected>>", self.update_conversion)
+
+        ttk.Button(frame, text="Swap", command=self.swap_units).pack(pady=4)
+
+        ttk.Label(frame, text="To").pack(anchor="w", **pad)
+
         
 
 
