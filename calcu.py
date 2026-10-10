@@ -347,7 +347,27 @@ class App(tk.Tk):
 
         ttk.Label(frame, text="To").pack(anchor="w", **pad)
 
-        
+        self.to_unit = tk.StringVar()
+        self.to_box = ttk.Combobox(frame, textvariable=self.to_unit, state="readonly")
+        self.to_box.pack(fill="x", **pad)
+        self.to_box.bind("<<ComoboboxSelected>>", self.update_conversion)
+        self.conversion_result = ttk.Label(frame, text="", font=("Segoe UI", 20, "bold"), wraplength=340, justify="center")
+        self.conversion_result.pack(pady=20)
+        self.note_label = ttk.Label(frame, text="", foreground="gray", wraplength=340)
+        self.note_label.pack(padx=16)
+        self.change_category()
+
+    def change_category(self, *_):
+        category = self.category.get()
+        units = list(UNITS[category])
+        self.from_box["values"] = units
+        self.to_box["values"] = units
+        self.from_unit.set(units[0])
+        self.to_unit.set(units[1])
+        self.note_label.config(
+            text="Exchange rates are examples only and note live."
+                "Edit the UNITS"
+        )
 
 
                 
