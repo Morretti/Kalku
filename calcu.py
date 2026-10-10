@@ -314,7 +314,33 @@ class App(tk.Tk):
         self.mode_button.config(text="DEG" if self.degress else "RAD")
         self.preview()
 
-    def toggle_Scienti
+    def toggle_scientific(self):
+        self.scientific_visible = not self.scientific_visible
+        if self.scientific_visible:
+            self.scientific_panel.grid()
+        else:
+            self.scientific_panel.grid_remove()
+
+
+# Converter Tab
+
+    def build_converter(self, frame):
+        pad = {"padx": 16, "pady": 5}
+        ttk.label(frame, text="Category").pack(anchor="w", **pad)
+        self.category = tk.StringVar(value="Length")
+        category_box = ttk.Combobox(frame, textvariable=self.category, values=list(UNITS), state="readonly")
+        category_box.pack(fill="x", **pad)
+        category_box.bind("<<ComboboxSelected>>", self.change_category)
+
+        ttk.Label(frame, text="Value").pack(anchor="w", **pad)
+        self.value = tk.StringVar(value="1")
+        self.value.trace_add("write", self.update_conversion)
+        ttk.Entry(frame, textvariable=self.value, font=("Segoe UI", 18), justify="right").pack(fill="x", **pad)
+
+        ttk.Label(frame, text="From").pack(anchor="w", **pad)
+        self.from_unit = tk.StringVar()
+        
+
 
                 
 
