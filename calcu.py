@@ -11,7 +11,7 @@ from tkinter import ttk
 # =============
 
 BINARY_OPS = {
-    ast.add: operator.add, ast.Sub: operator.sub,
+    ast.Add: operator.add, ast.Sub: operator.sub,
     ast.Mult: operator.mul, ast.div: operator.truediv,
     ast.pow: operator.pow, ast.Mod: operator.mod,
     ast.FloorDiv: operator.floordiv,
@@ -377,6 +377,46 @@ class App(tk.Tk):
         self.to_unit.set(a)
         self.update_conversion()
 
+    def update_conversion(self, *_):
+        try:
+            number = float(self.value.get().replace(",", "."))
+            result = convert(self.category.get(), number, self.from_unit.get(), self.to_unit.get())
+            self.conversion_result.config(text=f"{format_number(result, snap_to_zero=False)}\n{self.to_unit.get()}")
+        except Exception:
+            self.conversion_result.config(text="-")
+
+    def build_loan(self, frame):
+        self.var_principal = tk.StringVar(value="100000000")
+        self.var_rate = tk.StringVar(value="10")
+        self.var_term = tk.StringVar(value="120")
+        for label, var in (("Loan amount (Rp)", self.var_principal), ("Annual interest rate (%)", self.var_rate), ("Term (months)", self.var_term)):
+            ttk.Label(frame, text=label).pack(anchor="w", padx=16, pady=(14, 0))
+            ttk.Entry(frame, textvariable=var, font=("Segoe UI", 14)).pack(fill="x", padx=16)
+        ttk.Button(frame, text="Calculate", command=self.calculate_loan).pack(pady=18)
+        self.loan_result = ttk.Label(frame, text="", font=("Segoe UI", 12), justify="left")
+        self.loan_result.pack(padx=16, anchor="w")
+
+    def calculate_loan(self):
+        try:
+            principal = float(self.var_principal.get())
+            annual_rate = float(self.var_rate.get())
+            months = int(float(self.var_term.get()))
+            if principal <= 0 or months <= 0 or annual_rate < 0:
+                raise ValueError
+            r = annual_rate / 100 / 12
+            payment = (principal / months if r == 0 
+                       else principal * r / (1 - (1 + r) ** -months))
+            total = payment * months 
+            self.loan_result.config(text=(
+                f"Monthly Payment : Rp {format_currency(payment)}\n"
+                f"Total Payment   : Rp {format_currency(total)}\n"
+                f"Total Interest  : Rp {format_currency(total - principal)}\n"
+            ))
+        except Exception:
+            self.loan_result.config(text="Invalid Input. Enter number > 0.")
+
+if __name__=="__main__":
+    App().mainloop()
 
 
 
