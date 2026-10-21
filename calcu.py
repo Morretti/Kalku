@@ -366,8 +366,18 @@ class App(tk.Tk):
         self.to_unit.set(units[1])
         self.note_label.config(
             text="Exchange rates are examples only and note live."
-                "Edit the UNITS"
+                "Edit the UNITS['Currency'] dictionary."
+                if category == "Currency" else ""
         )
+        self.update_converseion()
+
+    def swap_units(self):
+        a, b = self.from_unit.get(), self.to_unit.get()
+        self.from_unit.set(b)
+        self.to_unit.set(a)
+        self.update_conversion()
+
+
 
 
                 
