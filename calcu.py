@@ -12,7 +12,7 @@ from tkinter import ttk
 
 BINARY_OPS = {
     ast.Add: operator.add, ast.Sub: operator.sub,
-    ast.Mult: operator.mul, ast.div: operator.truediv,
+    ast.Mult: operator.mul, ast.Div: operator.truediv,
     ast.pow: operator.pow, ast.Mod: operator.mod,
     ast.FloorDiv: operator.floordiv,
 }
