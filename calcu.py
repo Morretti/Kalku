@@ -13,7 +13,7 @@ from tkinter import ttk
 BINARY_OPS = {
     ast.Add: operator.add, ast.Sub: operator.sub,
     ast.Mult: operator.mul, ast.Div: operator.truediv,
-    ast.pow: operator.pow, ast.Mod: operator.mod,
+    ast.Pow: operator.pow, ast.Mod: operator.mod,
     ast.FloorDiv: operator.floordiv,
 }
 UNARY_OPS = {ast.UAdd: operator.pos, ast.USub: operator.neg}
@@ -166,7 +166,7 @@ FUNCTION_NAMES = {"sin", "cos", "tan", "asin", "acos", "atan", "in", "log", "√
 
 class App(tk.Tk):
     def __init__(self):
-        self.tittle("Advanced Calculactor")
+        self.title("Advanced Calculactor")
         self.geometry("400x740")
         self.minsize(360, 660)
         self.degress = True
